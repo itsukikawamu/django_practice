@@ -83,10 +83,6 @@ DATABASES = {
     'youtube_db':{
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': "youtube_db",
-        "USER": "test",
-        "PASSWORD": "test",
-        "HOST": "localhost",
-       
     }
 }
 
