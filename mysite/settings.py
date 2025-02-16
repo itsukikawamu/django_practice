@@ -80,11 +80,17 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     },
-    'youtube':{
+    'youtube_db':{
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': "youtube_db"
+        'NAME': "youtube_db",
+        "USER": "test",
+        "PASSWORD": "test",
+        "HOST": "localhost",
+       
     }
 }
+
+DATABASE_ROUTERS = ["database_router.DatabaseRouter"]
 
 
 # Password validation
