@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
+    'youtube.apps.YoutubeConfig',
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'youtube':{
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': "youtube_db"
     }
 }
 
