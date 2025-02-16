@@ -88,7 +88,6 @@ DATABASES = {
 
 DATABASE_ROUTERS = ["database_router.DatabaseRouter"]
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
