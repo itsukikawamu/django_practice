@@ -1,4 +1,6 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
-def youtube(request):
-    return HttpResponse("<h1>hello, this is YouTube.</h1><p>welcome!</p>")
+def home(request):
+    context = {}
+    return render(request, "youtube/home.html", context)
