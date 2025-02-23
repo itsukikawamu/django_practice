@@ -1,6 +1,5 @@
 class DatabaseRouter:
     app_labels = {
-        "youtube": "youtube_db"
     }
     
     def db_for_read(self, model, **hints):
