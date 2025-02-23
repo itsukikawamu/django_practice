@@ -1,1 +1,6 @@
 <h1>{{channel.name}}</h1>
+<ul>
+    {% for video in channel.video_set.all %}
+        <li>{{ video.title }}</li>
+    {% endfor %}
+</ul>
