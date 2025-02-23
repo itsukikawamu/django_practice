@@ -1,8 +1,10 @@
 <h1>Wellcome to YouTube!</h1>
 {% if channel_list %}
-{% for channel in channel_list %}
-<li>{{channel.channel_name}}</li>
-{% endfor %}
+    <ul>
+    {% for channel in channel_list %}
+    <li><a href="{% url 'youtube:channel' channel.name%}">{{ channel.name }}</a></li>
+    {% endfor %}
+    </ul>
 {% else %}
-<p>No channels are available.</p>
+    <p>No channels are available.</p>
 {% endif %}
