@@ -9,8 +9,8 @@ def home(request):
     }
     return render(request, "youtube/home.html", context)
 
-def channel(request, channel_name):
-    channel = get_object_or_404(Channel, name=channel_name)
+def channel(request, channel_slug):
+    channel = get_object_or_404(Channel, slug=channel_slug)
     context = {
         "channel": channel
     }
