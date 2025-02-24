@@ -18,9 +18,8 @@ def channel(request, channel_slug):
 
 def video(request, channel_slug, video_slug):
     channel = get_object_or_404(Channel, slug=channel_slug)
-    video = get_object_or_404(Video, slug=video_slug)
+    video = get_object_or_404(Video, slug=video_slug, channel=channel)
     context = {
-        "channel": channel,
         "video": video
     }
     return render(request, "youtube/video.html", context)
