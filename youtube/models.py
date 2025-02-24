@@ -20,6 +20,12 @@ class Channel(models.Model):
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE) 
     title=models.CharField(max_length=255)
+    slug = models.SlugField(null=True, blank=True)
+    
+    def save(self, *args, **kargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kargs)
     
     def __str__(self):
         return self.title
