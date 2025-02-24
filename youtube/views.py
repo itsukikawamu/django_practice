@@ -11,7 +11,7 @@ def home(request):
 
 def channel(request, channel_slug):
     channel = get_object_or_404(Channel, slug=channel_slug)
-    video_list = channel.video_set.all
+    video_list = channel.video_set.order_by("-uploaded_at")
     context = {
         "channel": channel,
         "video__list": video_list
