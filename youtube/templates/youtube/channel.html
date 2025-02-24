@@ -1,6 +1,6 @@
 <h1>{{channel.name}}</h1>
 <ul>
-    {% for video in channel.video_set.all %}
+    {% for video in video_list %}
         <li><a href="{% url 'youtube:video' channel.slug video.slug %}">{{ video.title }}</a></li>
     {% endfor %}
 </ul>

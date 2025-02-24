@@ -21,6 +21,7 @@ class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE) 
     title=models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
     
     def __str__(self):
