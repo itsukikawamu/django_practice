@@ -2,7 +2,7 @@
 {% if channel_list %}
     <ul>
     {% for channel in channel_list %}
-    <li><a href="{% url 'youtube:channel' channel.slug%}">{{ channel.name }}</a></li>
+    <li><a href="{% url 'youtube:channel' channel.slug %}">{{ channel.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
