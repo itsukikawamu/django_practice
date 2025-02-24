@@ -1,1 +1,8 @@
-{{video.title}}
+<h1>{{video.title}}</h1>
+{% if video.external_url %} 
+    <iframe width="960" height="540"
+        src="{{ video.get_embed_url }}"
+        frameborder="0" allowfullscreen>
+    </iframe>
+
+{% endif %}
