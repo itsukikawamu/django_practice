@@ -1,7 +1,11 @@
 <h1>{{video.title}}</h1>
 {% if video.external_url %} 
-    <iframe width="960" height="540"
-        src="{{ video.get_embed_url }}"
-        frameborder="0" allowfullscreen>
+    <iframe
+        src="{{ video.get_embed_url }}" 
+        width="100%" 
+        height="auto"
+        style="max-width: 960px; aspect-ratio: 16/9;"
+        frameborder="0" 
+        allowfullscreen>
     </iframe>
 {% endif %}
