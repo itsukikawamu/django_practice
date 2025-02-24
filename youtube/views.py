@@ -14,7 +14,7 @@ def channel(request, channel_slug):
     video_list = channel.video_set.order_by("-uploaded_at")
     context = {
         "channel": channel,
-        "video__list": video_list
+        "video_list": video_list
     }
     return render(request, "youtube/channel.html", context)
 
