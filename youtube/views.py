@@ -25,3 +25,9 @@ def video(request, channel_slug, video_slug):
         "video": video
     }
     return render(request, "youtube/video.html", context)
+
+def trending(request):
+    context={
+        
+    }
+    return render(request, "youtube/trending.html", context)
