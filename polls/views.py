@@ -18,6 +18,10 @@ def result(request, question_id):
     response  = "you're looking at the results of quesstion %s."
     return HttpResponse(response)
 
-def vote(requests, question_id):
-    response = "you're voting on question %s."
-    return HttpResponse(response %  question_id) 
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    context={
+        "question": question,
+        "error_message": "you didn't select a choice",
+    }
+    return render(request, "polls/detail.html", context)
