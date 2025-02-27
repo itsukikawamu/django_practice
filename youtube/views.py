@@ -1,5 +1,6 @@
+import time
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Channel, Video
 
 def home(request):
@@ -31,3 +32,7 @@ def trending(request):
         
     }
     return render(request, "youtube/trending.html", context)
+
+def sleeper(request):
+    time.sleep(2.0)
+    return redirect('youtube:home')
