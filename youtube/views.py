@@ -34,13 +34,6 @@ class ChannelView(generic.ListView):
         context["channel_slug"] = self.channel.slug
         return context
 
-class MyChannelView(ChannelView):
-    template_name = "youtube/my_channel.html"
-    def get_queryset(self):
-        self.channel = get_object_or_404(Channel, slug="my_channel")
-        return self.channel.video_set.order_by("-uploaded_at")
-    
-
 def trending(request):
     context={
         
