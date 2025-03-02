@@ -30,5 +30,10 @@ class VideoView(generic.TemplateView):
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
         return  context
 
-
+class EvaluateView(VideoView):
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        channel = context["channel"]
+        video = context["video"]
+        return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
     

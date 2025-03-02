@@ -1,4 +1,5 @@
 <h1>{{video.title}}</h1>
+<div>
 {% if video.external_url %} 
     <iframe
         src="{{ video.get_embed_url }}" 
@@ -8,5 +9,15 @@
         frameborder="0" 
         allowfullscreen>
     </iframe>
-
 {% endif %}
+</div>
+
+<div>
+<form action="{% url 'youtube:evaluate' channel_slug=channel.slug video_slug=video.slug %}" method="post">
+    {% csrf_token %}
+        <input type="radio" name="evaluate" id="like" value="like">
+        <label for="like">Like</label>
+        <br>
+    <input type="submit" value="evaluate">
+</form>
+</div>
