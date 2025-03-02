@@ -19,7 +19,7 @@ class DetailView(generic.DeleteView):
 
 class ResultsView(generic.DeleteView):
     model = Question
-    template = "polls/results.html"
+    template_name = "polls/results.html"
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
