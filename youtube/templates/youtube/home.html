@@ -1,6 +1,15 @@
 <h1>Wellcome to YouTube!</h1>
 <div>
     <h2>trending videos</h2>
+    {% if video_list %}
+    <ol>
+    {% for video in video_list %}
+    <li><a href="{% url 'youtube:video' channel_slug=video.channel.slug video_slug=video.slug%}">{{ video.title}}</a></li>
+    {% endfor %}
+    </ol>
+    {% else %}
+    <p>No videos are available.</p>
+    {% endif %}
 </div>
 
 <div>

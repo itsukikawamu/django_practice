@@ -20,7 +20,7 @@ class Channel(models.Model):
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE) 
     title=models.CharField(max_length=255)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
     like_number = models.IntegerField(verbose_name="like", default=0)

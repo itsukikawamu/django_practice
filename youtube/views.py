@@ -6,8 +6,10 @@ from .models import Channel, Video
 
 def home(request):
     channel_list = Channel.objects.order_by("-subscribers_number")[:5]
+    video_list = Video.objects.order_by("-like_number")[:10]
     context = {
-        "channel_list": channel_list
+        "channel_list": channel_list,
+        "video_list": video_list
     }
     return render(request, "youtube/home.html", context)
 
