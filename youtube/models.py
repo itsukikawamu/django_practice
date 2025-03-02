@@ -23,6 +23,7 @@ class Video(models.Model):
     slug = models.SlugField(unique=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
+    like_number = models.IntegerField(verbose_name="like", default=0)
     
     def __str__(self):
         return self.title

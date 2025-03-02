@@ -1,12 +1,11 @@
 <h1>Wellcome to YouTube!</h1>
 <div>
-    <ul>
-    <li><a href="{% url 'youtube:trending' %}">trending</a></li>
-    </ul>
+    <h2>trending videos</h2>
 </div>
 
 <div>
 {% if channel_list %}
+    <h2>popular channels</h2>
     <ul>
     {% for channel in channel_list %}
     <li><a href="{% url 'youtube:channel' channel.slug %}">{{ channel.name }}</a></li>

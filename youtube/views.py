@@ -33,13 +33,3 @@ class ChannelView(generic.ListView):
         context["channel"] = self.channel
         context["channel_slug"] = self.channel.slug
         return context
-
-def trending(request):
-    context={
-        
-    }
-    return render(request, "youtube/trending.html", context)
-
-def sleeper(request):
-    time.sleep(2.0)
-    return redirect('youtube:trending')
