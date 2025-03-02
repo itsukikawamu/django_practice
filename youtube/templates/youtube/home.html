@@ -1,4 +1,12 @@
 <h1>Wellcome to YouTube!</h1>
+<div>
+    <ul>
+    <li><a href="{% url 'youtube:trending' %}">trending</a></li>
+    <li><a href="{% url 'youtube:my_channel' %}">your_channel</a></li>
+    </ul>
+</div>
+
+<div>
 {% if channel_list %}
     <ul>
     {% for channel in channel_list %}
@@ -8,3 +16,4 @@
 {% else %}
     <p>No channels are available.</p>
 {% endif %}
+</div>

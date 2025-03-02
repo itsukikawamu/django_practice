@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyChannel</title>
+</head>
+<h1>{{channel.name}}</h1>
+<div>
+    <form action="{% url 'youtube:upload' %}" method="post">
+        <fieldset>
+            <legend><h1>{{ question.question_text }}</h1></legend>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            {% endfor %}
+        </fieldset>
+        <input type="submit" value="Vote">
+    </form>
+</div>
+<div>
+<ul>
+    {% for video in video_list %}
+        <li><a href="{% url 'youtube:video' channel.slug video.slug %}">{{ video.title }}</a></li>
+    {% endfor %}
+</ul>
+</div>
