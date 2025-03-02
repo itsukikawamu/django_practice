@@ -4,7 +4,7 @@ from . import views
 
 app_name = "youtube"
 urlpatterns = [
-    path("", views.HomeView.as_view, name="home"),
+    path("", views.HomeView.as_view(), name="home"),
     path("<slug:channel_slug>/", views.ChannelView.as_view(), name = "channel"),
     path("<slug:channel_slug>/<slug:video_slug>/", views.video, name="video"),
 ]
