@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
+from django.db.models import F
 from .models import Channel, Video
 
 class HomeView(generic.TemplateView):
@@ -9,7 +10,7 @@ class HomeView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["channel_list"] = Channel.objects.order_by("-subscribers_number")[:5]
-        context["video_list"] = Video.objects.order_by("-like_number")[:10]
+        context["video_list"] = Video.objects.order_by("-likes")[:10]
         return context
     
 class ChannelView(generic.TemplateView):
@@ -32,8 +33,9 @@ class VideoView(generic.TemplateView):
 
 class EvaluateView(VideoView):
     def post(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        channel = context["channel"]
-        video = context["video"]
+        channel=get_object_or_404(Channel, slug=kwargs["channel_slug"])
+        video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
+        video.likes = F("likes") + 1
+        video.save(update_fields=["likes"])
         return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
     
