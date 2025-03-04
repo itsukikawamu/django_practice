@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.db.models import F
@@ -37,5 +37,6 @@ class EvaluateView(VideoView):
         video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
         video.likes = F("likes") + 1
         video.save(update_fields=["likes"])
-        return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
+        video.refresh_from_db()
+        return JsonResponse({"likes": video.likes})
     
