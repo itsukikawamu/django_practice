@@ -7,7 +7,7 @@
     <title>{{video.title}}</title>
 </head>
 
-
+<body>
 <h1>{{video.title}}</h1>
 <div>
 {% if video.external_url %} 
@@ -24,12 +24,15 @@
 </div>
 
 <div>
-    {% csrf_token %}
-    <button type="button" id="like">Like {{ video.likes }}</button>
-    <br>
+
+    <form action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
+        {% csrf_token %}
+        <button type="submit" id="like" value="Likes">Like</button>
+        <span>{{ video.likes }}</span>
+    </form>
 </div>
+
 <script>
-
 </script>
-
+</body>
 </html>

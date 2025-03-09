@@ -13,14 +13,21 @@ class HomeView(generic.TemplateView):
         context["video_list"] = Video.objects.order_by("-likes")[:10]
         return context
     
-class ChannelView(generic.TemplateView):
+class ChannelView(generic.ListView):
     template_name = "youtube/channel.html"
-    
+    model = Video
+    context_object_name = "video_list"
+   
+    def get_queryset(self):
+        self.channel = get_object_or_404(Channel, slug=self.kwargs["channel_slug"])
+        return Video.objects.filter(channel=self.channel).order_by("-uploaded_at")
+     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["channel"] = get_object_or_404(Channel, slug=kwargs["channel_slug"])
-        context["video_list"] = Video.objects.filter(channel=context["channel"]).order_by("-uploaded_at")
+        context["channel"] = get_object_or_404(Channel, slug=self.kwargs.get("channel_slug"))
         return context
+    
+
       
 class VideoView(generic.TemplateView):
     template_name = "youtube/video.html"
@@ -38,5 +45,5 @@ class EvaluateView(VideoView):
         video.likes = F("likes") + 1
         video.save(update_fields=["likes"])
         video.refresh_from_db()
-        return JsonResponse({"likes": video.likes})
+        return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
     
