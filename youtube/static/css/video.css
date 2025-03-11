@@ -1,0 +1,23 @@
+/* ボタンのスタイル */
+.button-container {
+    display: flex;
+    justify-content: flex-start; /* ボタンを右寄せ */
+}
+
+.button {
+    display: flex;
+    width: 80px;
+    margin: 20px auto;
+    padding: 10px;
+    gap: 15px;
+    background-color: #818181;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #005f6b;
+}

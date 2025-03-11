@@ -1,0 +1,21 @@
+/* 全体の背景色を設定 */
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* 見出しのデザイン */
+h1 {
+    color: #333;
+    text-align: center;
+    font-size: 28px;
+}
+
+/* 段落のスタイル */
+p {
+    color: #666;
+    font-size: 18px;
+    text-align: center;
+}
+
+

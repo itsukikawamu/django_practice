@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/video.css' %}">
     <title>{{video.title}}</title>
 </head>
 
@@ -21,16 +23,20 @@
     </iframe>
 {% endif %}
 <br>
+    <div class="button-container">
+
+        <form action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="like" class="button" value="Likes">
+                Like
+                <span>{{ video.likes }}</span>
+            </button>
+            
+        </form>
+    </div>
 </div>
 
-<div>
 
-    <form action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
-        {% csrf_token %}
-        <button type="submit" id="like" value="Likes">Like</button>
-        <span>{{ video.likes }}</span>
-    </form>
-</div>
 
 <script>
 </script>
