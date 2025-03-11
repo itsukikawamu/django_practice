@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/video.css' %}">
 
-    <title>{{video.title}}</title>
+    <title id="page-title">{{video.title}}</title>
 </head>
 
 <body>
@@ -26,11 +26,11 @@
 <br>
     <div class="button-container">
 
-        <form action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
+        <form id="likeForm" action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
             {% csrf_token %}
-            <button type="button" id="like" class="button" value="Likes">
+            <button type="button" id="likeButton" class="button" value="Likes">
                 Like
-                <span id="like_count">{{ video.likes }}</span>
+                <span id="likeCount">{{ video.likes }}</span>
             </button>
             
         </form>
