@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/video.css' %}">
+
     <title>{{video.title}}</title>
 </head>
 
@@ -27,9 +28,9 @@
 
         <form action="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug %}" method="post">
             {% csrf_token %}
-            <button type="submit" id="like" class="button" value="Likes">
+            <button type="button" id="like" class="button" value="Likes">
                 Like
-                <span>{{ video.likes }}</span>
+                <span id="like_count">{{ video.likes }}</span>
             </button>
             
         </form>
@@ -38,7 +39,6 @@
 
 
 
-<script>
-</script>
+<script src=" {% static 'js/video.js' %}"></script>
 </body>
 </html>

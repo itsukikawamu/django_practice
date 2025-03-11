@@ -46,5 +46,5 @@ class EvaluateView(VideoView):
         video.likes = F("likes") + 1
         video.save(update_fields=["likes"])
         video.refresh_from_db()
-        # return JsonResponse({"success": True, "likes": video.likes})
-        return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
+        return JsonResponse({"success": True, "likes": video.likes})
+        # return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
