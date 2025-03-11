@@ -2,7 +2,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.db.models import F
-from .models import Channel, Video
+from .models import Channel, Video   
+        
 
 class HomeView(generic.TemplateView):
     template_name = "youtube/home.html"
