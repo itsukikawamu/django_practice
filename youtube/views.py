@@ -1,8 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+from django.views import View, generic
 from django.db.models import F
-from .models import Channel, Video   
+from .models import Channel, Video, Comment 
         
 
 class HomeView(generic.TemplateView):
@@ -37,9 +37,11 @@ class VideoView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["channel"] = get_object_or_404(Channel, slug=kwargs["channel_slug"])
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
+        context["comment_list"] = Comment.objects.filter(video=context["video"])
+        
         return  context
 
-class EvaluateView(VideoView):
+class EvaluateView(View):
     def post(self, request, *args, **kwargs):
         channel=get_object_or_404(Channel, slug=kwargs["channel_slug"])
         video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
@@ -49,3 +51,13 @@ class EvaluateView(VideoView):
         video.refresh_from_db()
         return JsonResponse({"success": True, "likes": video.likes})
         # return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)
+
+
+class CommentView(VideoView):
+    def post(self, request, *args, **kwargs):
+        channel=get_object_or_404(Channel, slug=kwargs["channel_slug"])
+        video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
+        comment_text =  request.POST.get("commentText")
+        comment = Comment.objects.create(video=video, text=comment_text)
+        # return JsonResponse()
+        return redirect("youtube:video", channel_slug=channel.slug, video_slug=video.slug)

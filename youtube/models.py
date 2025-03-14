@@ -24,6 +24,7 @@ class Video(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
     likes = models.IntegerField(verbose_name="likes", default=0)
+
     
     def __str__(self):
         return self.title
@@ -38,3 +39,13 @@ class Video(models.Model):
             return self.external_url.replace("watch?v=", "embed/")
         return None
     
+    def get_comments(self):
+        return self.comments.order_by("-uploaded_at")
+    
+class Comment(models.Model):
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    text = models.CharField(max_length=1000)
+    uploaded_at = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.text[:30]}"
