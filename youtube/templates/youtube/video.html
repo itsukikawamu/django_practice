@@ -33,16 +33,14 @@
             </button>   
     </div>
     <div>
-        <form id="commentForm"  method="post" class="mb-4">
             <h3>Comment</h3>
-            <input type="text" name="commentText" id="commentInput" placeholder="write comment" autocomplete="off" class="form-control">
-            <button type="button" class="btn btn-primary"
+            <input type="text" id="commentInput" placeholder="write comment" autocomplete="off" class="form-control">
+            <button type="button" id="commentButton" class="btn btn-primary"
             data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">Comment</button>
-        
     </div>
     <div class="container mt-4">
         <h4>Comments</h4>
-        <ul class="list-group">
+        <ul id="commentList" class="list-group">
             {% for comment in comment_list %}
             <li class="list-group-item">{{ comment.text }}</li>
             {% endfor %}
