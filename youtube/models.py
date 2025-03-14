@@ -25,7 +25,6 @@ class Video(models.Model):
     external_url = models.URLField(blank=True, null=True)
     likes = models.IntegerField(verbose_name="likes", default=0)
 
-    
     def __str__(self):
         return self.title
     

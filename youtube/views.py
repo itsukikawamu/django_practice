@@ -28,9 +28,7 @@ class ChannelView(generic.ListView):
         context = super().get_context_data(**kwargs)
         context["channel"] = get_object_or_404(Channel, slug=self.kwargs.get("channel_slug"))
         return context
-    
 
-      
 class VideoView(generic.TemplateView):
     template_name = "youtube/video.html"
     
@@ -51,8 +49,6 @@ class EvaluateView(View):
         video.save(update_fields=["likes"])
         video.refresh_from_db()
         return JsonResponse({"success": True, "likes": video.likes})
-
-
 
 class CommentView(View):
     def post(self, request, *args, **kwargs):
