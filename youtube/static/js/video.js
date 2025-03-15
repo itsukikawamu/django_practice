@@ -16,7 +16,7 @@ const likeButton = document.getElementById("likeButton");
 const likeCount = document.getElementById("likeCount");
 
 likeButton.addEventListener("click", async function(){
-    const url = likeButton.getAttribute("data-url");
+    const url = likeButton.dataset.url;
     try{
     const responce = await fetch(url,
         {
@@ -69,7 +69,6 @@ commentButton.addEventListener("click", async function(){
             newComment.textContent = data.newCommentText;
             commentList.appendChild(newComment);
             commentInput.value = "";
-            
         }
     }
     catch(error){
