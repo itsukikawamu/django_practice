@@ -75,6 +75,8 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import sys
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -82,7 +84,8 @@ DATABASES = {
     },
     'youtube_db':{
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "youtube_db.sqlite3",
+        'NAME': "memory" if "test" in sys.argv else BASE_DIR / "youtube_db.sqlite3",
+        'TEST': {'NAME': None}
     }
 }
 

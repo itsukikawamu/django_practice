@@ -2,13 +2,26 @@ from django.db import models
 from django.utils.text import slugify
 
 class Channel(models.Model):
-    name = models.CharField(max_length=225)
-    slug = models.SlugField(max_length=225, unique=True)
+    name = models.CharField(max_length=225, blank=False)
+    slug = models.SlugField(max_length=225, unique=True, editable=False)
     subscribers_number = models.PositiveBigIntegerField(verbose_name="登録者数", default=0)
     
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)
+            unique_slug = base_slug
+            
+            counter = 1
+            while Channel.objects.filter(slug=unique_slug).exists():
+                unique_slug  = f"{base_slug}-{counter}"
+                counter += 1
+                
+            self.slug = unique_slug
+        
+        else:
+            self.slug = Channel.objects.get(pk=self.pk).slug
+        
+        self.full_clean()
         super().save(*args, **kwargs)
     
     def __str__(self):
