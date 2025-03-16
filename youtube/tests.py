@@ -9,8 +9,13 @@ from .models import Channel, Video, Comment
 #test_models
 
 class ChannelModelTest(TestCase):
-    def test(self):
-        self.assertIs()
+    def test_ch_slug_generate(self):
+        channel = Channel.objects.create("Test Channel")
+        self.assertEqual(channel.slug, "test-channel")
+        
+    def test_no_name_ch(self):
+        channel = Channel.objects.create()
+        self.assertIs(channel, None)
     
 class VideoModelTest(TestCase):
     def test(self):
