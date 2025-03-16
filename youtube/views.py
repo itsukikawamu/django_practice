@@ -56,7 +56,7 @@ class CommentView(View):
         video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
         data = json.loads(request.body)
         new_comment = Comment.objects.create(video=video, text=data.get("commentText"))
-        return JsonResponse({"success": True, "newCommentText": new_comment.text})
+        return JsonResponse({"success": True, "newCommentText": new_comment.text}, status=201)
     
     
     
