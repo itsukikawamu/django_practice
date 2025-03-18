@@ -3,7 +3,8 @@ import datetime
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from django.core.exceptions import ValidationError
-from django.utils import timezone
+from django.utils import timezone 
+from django.utils.text import slugify
 from django.urls import reverse
 
 from .models import Channel, Video, Comment
@@ -34,7 +35,14 @@ class ChannelModelTest(TestCase):
             Channel.objects.create(name="")
     
     def test_valid_name(self):
-        pass #後で書く
+        """
+        created channel with valid name,
+        """
+        ch_name = "Test Channel"
+        channel = Channel.objects.create(name=ch_name)
+        self.assertIsNotNone(channel.pk)
+        self.assertEqual(channel.name, ch_name)
+
         
 """
     def test_ch_slug_generate(self):
