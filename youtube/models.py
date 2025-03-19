@@ -27,9 +27,6 @@ class Channel(models.Model):
     def __str__(self):
         return self.name
     
-    def get_subscribers_number(self):
-        return self.subscribers_number
-    
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE) 
     title=models.CharField(max_length=255)

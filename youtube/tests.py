@@ -66,6 +66,14 @@ class ChannelModelTest(TestCase):
         self.assertEqual(channel2.slug, f"{slugify(ch_name)}-1")
         self.assertEqual(channel3.slug, f"{slugify(ch_name)}-2")
 
+    def test_subscribers_defaults_to_zero(self):
+        """
+        subscriber_number defaults to zero.
+        """
+        ch_name = "default subs num channel"
+        channel = Channel.objects.create(name=ch_name)
+        self.assertEqual(channel.subscribers_number, 0)
+
 """    
 class VideoModelTest(TestCase):
     def test(self):
