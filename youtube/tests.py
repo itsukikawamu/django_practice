@@ -58,10 +58,13 @@ class ChannelModelTest(TestCase):
         ch_name = "Duplicated Channel"
         channel1 = Channel.objects.create(name=ch_name)
         channel2 = Channel.objects.create(name=ch_name)
+        channel3 = Channel.objects.create(name=ch_name)
         self.assertIsNotNone(channel1.pk)
         self.assertIsNotNone(channel2.pk)
+        self.assertIsNotNone(channel3.pk)
         self.assertEqual(channel1.slug, slugify(ch_name))
         self.assertEqual(channel2.slug, f"{slugify(ch_name)}-1")
+        self.assertEqual(channel3.slug, f"{slugify(ch_name)}-2")
 
 """    
 class VideoModelTest(TestCase):
