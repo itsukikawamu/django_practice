@@ -43,13 +43,25 @@ class ChannelModelTest(TestCase):
         self.assertIsNotNone(channel.pk)
         self.assertEqual(channel.name, ch_name)
 
-        
-"""
     def test_ch_slug_generate(self):
-        channel = Channel.objects.create("Test Channel")
-        self.assertEqual(channel.slug, "test-channel")
-"""
-  
+        """
+        slug generated slugified from channel name
+        """
+        ch_name = "Test Channel"
+        channel = Channel.objects.create(name=ch_name)
+        self.assertEqual(channel.slug, slugify(ch_name))
+        
+    def test_ch_slug_generate_with_duplicated(self):
+        """
+        Generate numbered slugs in case of duplicate channel names
+        """
+        ch_name = "Duplicated Channel"
+        channel1 = Channel.objects.create(name=ch_name)
+        channel2 = Channel.objects.create(name=ch_name)
+        self.assertIsNotNone(channel1.pk)
+        self.assertIsNotNone(channel2.pk)
+        self.assertEqual(channel1.slug, slugify(ch_name))
+        self.assertEqual(channel2.slug, f"{slugify(ch_name)}-1")
 
 """    
 class VideoModelTest(TestCase):
