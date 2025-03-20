@@ -33,6 +33,14 @@ class ChannelModelTest(TestCase):
         """
         with self.assertRaises(ValidationError):
             Channel.objects.create(name="")
+            
+    def test_name_max_length_exceeded(self):
+        """
+        Name should not exceed the max_length of 225.
+        """
+        long_name = "A" * 226
+        with self.assertRaises(ValidationError):
+            channel = Channel.objects.create(name=long_name)
     
     def test_valid_name(self):
         """
@@ -43,11 +51,20 @@ class ChannelModelTest(TestCase):
         self.assertIsNotNone(channel.pk)
         self.assertEqual(channel.name, ch_name)
 
-    def test_ch_slug_generate(self):
+    def test_ch_nomal_slug_generate(self):
         """
-        slug generated slugified from channel name
+        slug generated slugified from channel name.
+        
         """
-        ch_name = "Test Channel"
+        ch_name = "slug generate Channel"
+        channel = Channel.objects.create(name=ch_name)
+        self.assertEqual(channel.slug, slugify(ch_name))
+        
+    def test_ch_nomal_slug_generate(self):
+        """
+        slugify from channel name with special characters.
+        """
+        ch_name = "Test !@#$  %^&*()こんにちは Channel"
         channel = Channel.objects.create(name=ch_name)
         self.assertEqual(channel.slug, slugify(ch_name))
         
@@ -56,15 +73,27 @@ class ChannelModelTest(TestCase):
         Generate numbered slugs in case of duplicate channel names
         """
         ch_name = "Duplicated Channel"
-        channel1 = Channel.objects.create(name=ch_name)
-        channel2 = Channel.objects.create(name=ch_name)
-        channel3 = Channel.objects.create(name=ch_name)
-        self.assertIsNotNone(channel1.pk)
-        self.assertIsNotNone(channel2.pk)
-        self.assertIsNotNone(channel3.pk)
-        self.assertEqual(channel1.slug, slugify(ch_name))
-        self.assertEqual(channel2.slug, f"{slugify(ch_name)}-1")
-        self.assertEqual(channel3.slug, f"{slugify(ch_name)}-2")
+        channels = [Channel.objects.create(name=ch_name) for _ in range(5)]
+        for i, channel in enumerate(channels):
+            self.assertIsNotNone(channel.pk)
+            
+            if i == 0:
+                self.assertEqual(channel.slug, slugify(ch_name))
+            else:    
+                self.assertEqual(channel.slug, f"{slugify(ch_name)}-{i}")
+
+
+    def test_slug_isnt_changed(self):
+        """
+        slug is not changeable.
+        """
+        ch_name = "slug unchangeable channel"
+        channel = Channel.objects.create(name=ch_name)
+        first_slug = channel.slug
+        channel.name = "changed channel name"
+        channel.slug = slugify(channel.name)
+        channel.save()
+        self.assertEqual(channel.slug, first_slug)
 
     def test_subscribers_defaults_to_zero(self):
         """
@@ -74,15 +103,24 @@ class ChannelModelTest(TestCase):
         channel = Channel.objects.create(name=ch_name)
         self.assertEqual(channel.subscribers_number, 0)
 
-"""    
+    def test_subscribers_cant_be_negative(self):
+        channel = Channel.objects.create(name="negative subs")
+        with self.assertRaises(ValidationError): 
+            channel.subscribers_number = -1000
+            channel.full_clean()
+"""
 class VideoModelTest(TestCase):
     def test(self):
         self.assertIs()
-        
+"""
+""" 
 class CommentModelTest(TestCase):
     def test(self):
         self.assertIs()
         
+"""
+
+"""
 #test_views
 
 class HomeViewTest(TestCase):
