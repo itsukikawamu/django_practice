@@ -10,17 +10,13 @@ class Channel(models.Model):
         if not self.slug:
             base_slug = slugify(self.name)
             unique_slug = base_slug
-            
             counter = 1
             while Channel.objects.filter(slug=unique_slug).exists():
                 unique_slug  = f"{base_slug}-{counter}"
                 counter += 1
-                
             self.slug = unique_slug
-        
         else:
             self.slug = Channel.objects.get(pk=self.pk).slug
-        
         self.full_clean()
         super().save(*args, **kwargs)
     
@@ -29,8 +25,8 @@ class Channel(models.Model):
     
 class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE) 
-    title=models.CharField(max_length=255)
-    slug = models.SlugField(unique=True)
+    title=models.CharField(max_length=255, blank=False)
+    slug = models.SlugField(unique=True, editable=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
     likes = models.IntegerField(verbose_name="likes", default=0)
@@ -40,16 +36,22 @@ class Video(models.Model):
     
     def save(self, *args, **kargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            unique_slug = base_slug
+            counter = 1
+            while Video.objects.filter(slug=unique_slug).exists():
+                unique_slug  = f"{base_slug}-{counter}"
+                counter += 1  
+            self.slug = unique_slug
+        else :
+            self.slug = Video.objects.get(pk=self.pk).slug
+        self.full_clean()
         super().save(*args, **kargs)
     
     def get_embed_url(self):
         if self.external_url:
             return self.external_url.replace("watch?v=", "embed/")
         return None
-    
-    def get_comments(self):
-        return self.comments.order_by("-uploaded_at")
     
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)

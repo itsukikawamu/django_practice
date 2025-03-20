@@ -36,7 +36,7 @@ class VideoView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["channel"] = get_object_or_404(Channel, slug=kwargs["channel_slug"])
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
-        context["comment_list"] = Comment.objects.filter(video=context["video"])
+        context["comment_list"] = Comment.objects.filter(video=context["video"]).order_by("-uploaded_at")
         
         return  context
 
