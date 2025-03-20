@@ -3,40 +3,46 @@
 {% block title %}{{video.title}}{% endblock %}
 {% block content %}
 
-<div class="container w-90">
-    {% if video.external_url %} 
-    <iframe
-        src="{{ video.get_embed_url }}" 
-        width="100%" 
-        height="auto"
-        style="max-width: 960px; aspect-ratio: 16/9;"
-        frameborder="0" 
-        allowfullscreen>
-    </iframe>
-    {% endif %}
-    <h2>{{video.title}}</h2>
-    <div>
-            <button type="button" id="likeButton" class="button" 
-            data-url="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug  %}">
-                Like
-                <span id="likeCount">{{ video.likes }}</span>
-            </button>   
-    </div>
-    <div>
-            <h3>Comment</h3>
-            <input type="text" id="commentInput" placeholder="write comment" autocomplete="off" class="form-control">
-            <button type="button" id="commentButton" class="btn btn-primary"
-            data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">Comment</button>
-    </div>
-    <div class="container mt-4">
-        <h4>Comments</h4>
-        <ul id="commentList" class="list-group">
-            {% for comment in comment_list %}
-            <li class="list-group-item">{{ comment.text }}</li>
-            {% endfor %}
-        </ul>
+{% if video.external_url %} 
+<iframe
+    src="{{ video.get_embed_url }}" 
+    width="100%" 
+    height="auto"
+    style="max-width: 960px; aspect-ratio: 16/9;"
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
+{% endif %}
+<h2>{{video.title}}</h2>
+<div>
+    <button class="btn btn-light rounded-pill me-4"><a href="{% url 'youtube:channel' video.channel.slug %}" class="text-dark text-decoration-none">{{ video.channel.name }}</a></button>
+    <button type="button" id="likeButton" class="btn btn-light rounded-pill" 
+    data-url="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug  %}">
+        Like <span id="likeCount">{{ video.likes }}</span>
+    </button>   
+</div>
+<div class="bg-light rounded-3 mt-3">
+<p class="text-dark">
+    <strong>999,999,999,999 views 24 Apr 2005 </strong><br>
+    {{ video.discription }}
+</p>
+</div>
+<div class="mt-2">
+    <h3>Comments</h3>
+    <input type="text" id="commentInput" placeholder="write comment" autocomplete="off" class="form-control">
+    <div class="text-end mt-1">
+        <button type="button" id="commentButton" class="btn btn-primary rounded-pill mt-1"
+        data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">Comment</button>
     </div>
 </div>
+<div class="container mt-1">
+    <ul id="commentList" class="list-group">
+        {% for comment in comment_list %}
+        <li class="list-group-item">{{ comment.text }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
 {% endblock %}
 {% block scripts %}
 <script src="{% static 'js/video.js' %}"></script>

@@ -2,10 +2,10 @@
 {% block title %}{{channel.name}}{% endblock %}
 {% block content %}
     <h1 class="text-center">{{channel.name}}</h1>
-    <div>
+    <div class="mt-5">
     <ul cass="list-group">
         {% for video in video_list %}
-            <li class="list-group-item"><a href="{% url 'youtube:video' channel.slug video.slug %}">{{ video.title }}</a></li>
+            <li class="list-group-item"><a href="{% url 'youtube:video' channel.slug video.slug %}" class="text-dark text-decoration-none"><strong>{{ video.title }}</strong></a></li>
         {% endfor %}
     </ul>
     </div>

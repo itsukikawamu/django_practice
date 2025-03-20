@@ -1,0 +1,14 @@
+.btn-light {
+    background-color: #f4f4f4 !important; /* デフォルトのbtn-lightより少し濃いグレー */
+    border-color: #f4f4f4 !important;
+}
+.btn-light:hover {
+    background-color: #e5e5e5 !important; /* ホバー時 */
+}
+
+.navbar {
+    height: 55px !important; /* 任意の高さ*/
+}
+.navbar-brand h1 {
+    font-size: 30px !important; /* ロゴのサイズを調整 */
+}

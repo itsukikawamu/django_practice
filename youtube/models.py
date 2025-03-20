@@ -30,6 +30,7 @@ class Video(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
     likes = models.PositiveBigIntegerField(verbose_name="likes", default=0)
+    discription = models.CharField(max_length=1000, default="")
 
     def __str__(self):
         return self.title

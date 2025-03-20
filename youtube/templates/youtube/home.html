@@ -1,8 +1,7 @@
 {% extends "youtube/base.html" %}
 {% block title %}YouTube{% endblock %}
 {% block content %}
-    <h1 class="text-center">Welcome to YouTube!</h1>
-    <div class="mt-4">
+    <div class="mt-3">
         <h2 class="text-primary">trending videos</h2>
         {% if video_list %}
         <ol class="list-group list-group-numbered">
@@ -15,7 +14,7 @@
         {% endif %}
     </div>
 
-    <div class="mt-5">
+    <div class="mt-4">
     {% if channel_list %}
         <h2 class="text-success">popular channels</h2>
         <ul class="list-group">
