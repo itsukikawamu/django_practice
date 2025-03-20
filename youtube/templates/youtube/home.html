@@ -1,18 +1,7 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
-    rel="stylesheet" 
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
-    crossorigin="anonymous">
-    <title>youtube</title>
-</head>
-<body>
-<div class="container mt-4">
-    <h1 class="text-center">Wellcome to YouTube!</h1>
+{% extends "youtube/base.html" %}
+{% block title %}YouTube{% endblock %}
+{% block content %}
+    <h1 class="text-center">Welcome to YouTube!</h1>
     <div class="mt-4">
         <h2 class="text-primary">trending videos</h2>
         {% if video_list %}
@@ -38,6 +27,5 @@
         <p class="text-muted">No channels are available.</p>
     {% endif %}
     </div>
-</div>
-<script src="{% static 'js/home.js' %}"></script>
-</body>
+
+{% endblock %}
