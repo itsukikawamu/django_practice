@@ -36,11 +36,12 @@ class Video(models.Model):
     
     def save(self, *args, **kargs):
         if not self.slug:
-            base_slug = slugify(self.title)
+            base_slug = slugify(self.title)[:255]
             unique_slug = base_slug
             counter = 1
             while Video.objects.filter(slug=unique_slug).exists():
-                unique_slug  = f"{base_slug}-{counter}"
+                suffix = f"-{counter}"
+                unique_slug  = f"{base_slug[:255 - len(suffix)]}{suffix}"
                 counter += 1  
             self.slug = unique_slug
         else :

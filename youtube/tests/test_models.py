@@ -201,6 +201,14 @@ class VideoModelTest(TestCase):
         video = create_video(title)
         self.assertEqual(video.slug, slugify(title))
         
+    def test_slug_max_length_exceeded(self):
+        """
+        Slug should not exceed max_length of 255.
+        """
+        long_title = "A" * 300
+        video = create_video(long_title)
+        self.assertLessEqual(len(video.slug), 255) 
+        
     def test_ch_slug_generate_with_duplicated(self):
         """
         Generate numbered slugs in case of duplicate video titles
@@ -226,7 +234,30 @@ class VideoModelTest(TestCase):
         video.slug = slugify(video.title)
         video.save()
         self.assertEqual(video.slug, first_slug)
-        
+    
+    def test_get_embed_url_with_valid_url(self):
+        """
+        get_embed_url() should convert watch?v= to embed/ in external_url.
+        """
+        video = create_video("test")
+        video.external_url = "https://www.youtube.com/watch?v=abcd1234"
+        self.assertEqual(video.get_embed_url(), "https://www.youtube.com/embed/abcd1234")
+    
+    def test_get_embed_url_without_external_url(self):
+        """
+        get_embed_url() should return None if external_url is not set.
+        """
+        video = create_video("test")
+        self.assertIsNone(video.get_embed_url())
+    
+    def test_invalid_external_url(self):
+        """
+        Invalid URL should raise ValidationError.
+        """
+        video = create_video("test")
+        video.external_url = "invalid-url"
+        with self.assertRaises(ValidationError):
+           video.full_clean()
     
     def test_likes_defaults_to_zero(self):
         """
