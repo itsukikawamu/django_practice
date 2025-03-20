@@ -226,6 +226,20 @@ class VideoModelTest(TestCase):
         video.slug = slugify(video.title)
         video.save()
         self.assertEqual(video.slug, first_slug)
+        
+    
+    def test_likes_defaults_to_zero(self):
+        """
+        likes defaults to zero.
+        """
+        video = create_video("test")
+        self.assertEqual(video.likes, 0)
+
+    def test_likes_cant_be_negative(self):
+        video = create_video("test")
+        with self.assertRaises(ValidationError): 
+            video.likes = -1000
+            video.full_clean()
 
 
 def create_comment(text=None, video=None):
