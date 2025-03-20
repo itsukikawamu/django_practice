@@ -19,11 +19,11 @@ class ChannelModelTest(TestCase):
     def test_null_name_channel(self):
         """
         created channel without name, 
-        ValidationError occurrs.
+        IntegrityError occurrs.
         """
         try:
             create_channel()
-        except (ValidationError):
+        except (IntegrityError):
             pass
         else:
             self.fail()
@@ -33,16 +33,18 @@ class ChannelModelTest(TestCase):
         created channel with blank in name, 
         ValidationError occurrs.
         """
+        channel = Channel(name="")
         with self.assertRaises(ValidationError):
-            create_channel("")
+            channel.full_clean()
             
     def test_name_max_length_exceeded(self):
         """
         Name should not exceed the max_length of 225.
         """
         long_name = "A" * 226
+        channel = Channel(name=long_name)
         with self.assertRaises(ValidationError):
-            create_channel(long_name)
+            channel.full_clean()
     
     def test_valid_name(self):
         """
@@ -124,7 +126,7 @@ class VideoModelTest(TestCase):
         created video in null channel, 
         IntegrityError occers.
         """
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(IntegrityError):
             Video.objects.create(channel=None, title="null channel video")
             
     def test_video_with_non_existent_channel(self):
@@ -132,10 +134,10 @@ class VideoModelTest(TestCase):
         Creating a Video with a non-existent Channel in DB,
         IntegrityError occers.
         """
-        non_exist_channel_id = 9999
-
+        non_exist_id = 9999
+        video = Video(title="test", channel_id=non_exist_id)
         with self.assertRaises(ValidationError):
-            Video.objects.create(title="Invalid Channel Video", channel_id=non_exist_channel_id)
+            video.full_clean()
     
     def test_video_deleted_when_channel_deleted(self):
         """
@@ -151,9 +153,9 @@ class VideoModelTest(TestCase):
     def test_null_title_video(self):
         """
         created video without title, 
-        ValidationError occurrs.
+        IntegrityError occurrs.
         """
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(IntegrityError):
             create_video()
     
     def test_blank_title_video(self):
@@ -161,16 +163,18 @@ class VideoModelTest(TestCase):
         created video with blank title, 
         ValidationError occurrs.
         """
+        video = Video(title="")
         with self.assertRaises(ValidationError):
-            create_video("")
+            video.full_clean()
             
     def test_name_max_length_exceeded(self):
         """
         Name should not exceed the max_length of 225.
         """
         long_name = "A" * 226
+        video = Video(title=long_name)
         with self.assertRaises(ValidationError):
-            create_video(long_name)
+            video.full_clean()
     
     def test_valid_name(self):
         """
@@ -223,6 +227,67 @@ class VideoModelTest(TestCase):
         video.save()
         self.assertEqual(video.slug, first_slug)
 
-"""
+
+def create_comment(text=None, video=None):
+    if not video:
+        video = create_video("test")
+    comment = Comment.objects.create(text=text, video=video)
+    return comment
+    
 class CommentModelTest(TestCase):
-"""
+    databases = {"default", "youtube_db"}
+    
+    def test_Comment_with_null_video(self):
+        """
+        created Comment in null video, 
+        IntegrityError occers.
+        """
+        with self.assertRaises(IntegrityError):
+            Comment.objects.create(video=None, text="null video Comment")
+            
+    def test_Comment_with_non_existent_video(self):
+        """
+        Creating a Comment with a non-existent Video in DB,
+        IntegrityError occers.
+        """
+        non_exist_video_id = 9999
+        comment = Comment(text="test", video_id=non_exist_video_id)
+        with self.assertRaises(ValidationError):
+            comment.full_clean()
+    
+    def test_Comment_deleted_when_video_deleted(self):
+        """
+        When a video is deleted, its related Comments should also be deleted.
+        """
+        comment = create_comment("test")
+        self.assertEqual(Comment.objects.count(), 1)
+        comment_pk = comment.pk
+        comment.video.delete()
+        self.assertFalse(Comment.objects.filter(pk=comment_pk).exists())
+        self.assertEqual(Comment.objects.count(), 0)
+    
+    def test_null_text_comment(self):
+        """
+        created comment without text, 
+        IntegrityError occurrs.
+        """
+        with self.assertRaises(IntegrityError):
+            create_comment()
+    
+    def test_blank_text_comment(self):
+        """
+        created comment with blank text, 
+        ValidationError occurrs.
+        """
+        comment = Comment(text="")
+        with self.assertRaises(ValidationError):
+            comment.full_clean()
+            
+    def test_name_max_length_exceeded(self):
+        """
+        Name should not exceed the max_length of 225.
+        """
+        long_name = "A" * 1001
+        comment = Comment(text=long_name)
+        with self.assertRaises(ValidationError):
+            comment.full_clean()

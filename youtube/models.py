@@ -17,7 +17,7 @@ class Channel(models.Model):
             self.slug = unique_slug
         else:
             self.slug = Channel.objects.get(pk=self.pk).slug
-        self.full_clean()
+
         super().save(*args, **kwargs)
     
     def __str__(self):
@@ -45,7 +45,6 @@ class Video(models.Model):
             self.slug = unique_slug
         else :
             self.slug = Video.objects.get(pk=self.pk).slug
-        self.full_clean()
         super().save(*args, **kargs)
     
     def get_embed_url(self):

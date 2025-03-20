@@ -85,7 +85,7 @@ DATABASES = {
     'youtube_db':{
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': "memory" if "test" in sys.argv else BASE_DIR / "youtube_db.sqlite3",
-        'TEST': {'NAME': None}
+        'TEST': {'NAME': None},
     }
 }
 
