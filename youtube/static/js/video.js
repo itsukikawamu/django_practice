@@ -1,3 +1,5 @@
+
+
 function getCsrfToken(){
     let CSRFToken = null;
     const cookies = document.cookie.split(';');
@@ -18,6 +20,7 @@ const likeCount = document.getElementById("likeCount");
 likeButton.addEventListener("click", async function(){
     const url = likeButton.dataset.url;
     try{
+
     const responce = await fetch(url,
         {
             method: "POST",
@@ -28,12 +31,17 @@ likeButton.addEventListener("click", async function(){
             body: JSON.stringify({})
         });
     const data =await responce.json();
+    
+
+    console.log("data:", data);
+
+
     if (data.success) {
         likeCount.textContent = data.like_count;  
     }
     }
     catch (error){
-        console.log("error", error);
+        console.error("error", error);
     }
 });
 
@@ -61,6 +69,10 @@ commentButton.addEventListener("click", async function(){
                 body: JSON.stringify({commentText: commentInput.value})
             });
         console.log("posted");
+
+        text = responce.text();
+        console.log(text);
+
         const data =await responce.json();
         console.log(data);
         if (data.success) {

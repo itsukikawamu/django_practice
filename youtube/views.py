@@ -50,7 +50,7 @@ class EvaluateView(View):
         channel=get_object_or_404(Channel, slug=kwargs["channel_slug"])
         video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
         
-        video.like_coount = F("like_count") + 1
+        video.like_count = F("like_count") + 1
         video.save(update_fields=["like_count"])
         video.refresh_from_db()
         return JsonResponse({"success": True, "like_count": video.like_count})
