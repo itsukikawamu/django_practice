@@ -259,14 +259,28 @@ class VideoModelTest(TestCase):
         with self.assertRaises(ValidationError):
            video.full_clean()
     
-    def test_likes_defaults_to_zero(self):
+    def test_view_count_defaults_to_zero(self):
         """
-        likes defaults to zero.
+        view_count defaults to zero.
+        """
+        video = create_video("test")
+        self.assertEqual(video.view_count, 0)
+
+    def test_view_count_cant_be_negative(self):
+        video = create_video("test")
+        with self.assertRaises(ValidationError): 
+            video.view_count = -1000
+            video.full_clean()
+
+    
+    def test_like_count_defaults_to_zero(self):
+        """
+        like_count defaults to zero.
         """
         video = create_video("test")
         self.assertEqual(video.like_count, 0)
 
-    def test_likes_cant_be_negative(self):
+    def test_like_count_cant_be_negative(self):
         video = create_video("test")
         with self.assertRaises(ValidationError): 
             video.like_count = -1000
