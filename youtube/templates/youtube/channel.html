@@ -1,27 +1,41 @@
 {% extends "youtube/base.html" %}
 {% load static %}
-{% block title %}{{channel.name}}{% endblock %}
+
+{% block title %} {{channel.name}} {% endblock %}
+
 {% block content %}
-<header>
-<h1 class="text-start">{{channel.name}}</h1>
-<p class="text-start" id="subscribers">チャンネル登録者数 <span id="subscribersCount">{{channel.subscribers_number}}</span> 人</p>
-<button class="btn btn-dark rounded-pill" id="subscribeButton" data-url="{% url 'youtube:subscribe' channel.slug %}">Subscribe</button>
+<header class="mt-4">
+<div class="container>"
+  <h1 class="text-start">{{channel.name}}</h1>
+    <p class="text-start" id="subscribers">
+      チャンネル登録者数
+      <span id="subscribersCount">
+        {{channel.subscribers_number}}
+      </span>
+      人
+    </p>
+    <button class="btn btn-dark rounded-pill" id="subscribeButton" data-url="{% url 'youtube:subscribe' channel.slug %}">
+      Subscribe
+    </button>
+</div>
 </header>
+
 <article class="mt-5">
-<h2>Videos</h2>
-<ul class="list-group">
-{% for video in video_list %}
+  <h2>Videos</h2>
+  <ul class="list-group">
+  {% for video in video_list %}
     <li class="list-group-item">
-        <a href="{% url 'youtube:video' channel.slug video.slug %}" class="text-dark text-decoration-none">
-            <div class="d-flex align-items-center">
-                <img src="{{ video.get_thumbnail_url }}" alt="{{ video.title }}" class="me-3" style="width: 120px; height: 67.5px; object-fit: cover;">
-                <strong>{{ video.title }}</strong>
-            </div>
-        </a>
+      <a href="{% url 'youtube:video' channel.slug video.slug %}" class="text-dark text-decoration-none">
+        <div class="d-flex align-items-center">
+          <img src="{{ video.get_thumbnail_url }}" alt="{{ video.title }}" class="me-3" style="width: 120px; height: 67.5px; object-fit: cover;">
+            <strong>{{ video.title }}</strong>
+        </div>
+      </a>
     </li>
-{% endfor %}
-</ul>
+  {% endfor %}
+  </ul>
 </article>
+
 {% endblock %}
 
 {% block scripts %}
