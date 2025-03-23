@@ -29,7 +29,8 @@ class Video(models.Model):
     slug = models.SlugField(unique=True, editable=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
-    likes = models.PositiveBigIntegerField(verbose_name="likes", default=0)
+    view_count = models.PositiveBigIntegerField(verbose_name="view_count", default=0)
+    like_count = models.PositiveBigIntegerField(verbose_name="like_count", default=0)
     discription = models.CharField(max_length=1000, default="")
 
     def __str__(self):

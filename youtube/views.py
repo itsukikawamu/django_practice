@@ -12,7 +12,7 @@ class HomeView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["channel_list"] = Channel.objects.order_by("-subscribers_number")[:5]
-        context["video_list"] = Video.objects.order_by("-likes")[:10]
+        context["video_list"] = Video.objects.order_by("-like_count")[:10]
         return context
     
 class ChannelView(generic.ListView):
@@ -38,6 +38,11 @@ class VideoView(generic.TemplateView):
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
         context["comment_list"] = Comment.objects.filter(video=context["video"]).order_by("-uploaded_at")
         
+        video = context["video"]
+        video.view_count = F("view_count") + 1
+        video.save(update_fields=["view_count"])
+        video.refresh_from_db()
+        
         return  context
 
 class EvaluateView(View):
@@ -45,10 +50,10 @@ class EvaluateView(View):
         channel=get_object_or_404(Channel, slug=kwargs["channel_slug"])
         video = get_object_or_404(Video, channel=channel, slug=kwargs["video_slug"])
         
-        video.likes = F("likes") + 1
-        video.save(update_fields=["likes"])
+        video.like_coount = F("like_count") + 1
+        video.save(update_fields=["like_count"])
         video.refresh_from_db()
-        return JsonResponse({"success": True, "likes": video.likes})
+        return JsonResponse({"success": True, "like_count": video.like_count})
 
 class CommentView(View):
     def post(self, request, *args, **kwargs):

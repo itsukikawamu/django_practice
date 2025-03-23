@@ -264,12 +264,12 @@ class VideoModelTest(TestCase):
         likes defaults to zero.
         """
         video = create_video("test")
-        self.assertEqual(video.likes, 0)
+        self.assertEqual(video.like_count, 0)
 
     def test_likes_cant_be_negative(self):
         video = create_video("test")
         with self.assertRaises(ValidationError): 
-            video.likes = -1000
+            video.like_count = -1000
             video.full_clean()
 
 

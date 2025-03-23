@@ -29,7 +29,7 @@ likeButton.addEventListener("click", async function(){
         });
     const data =await responce.json();
     if (data.success) {
-        likeCount.textContent = data.likes;  
+        likeCount.textContent = data.like_count;  
     }
     }
     catch (error){

@@ -3,7 +3,9 @@
 {% block title %}{{video.title}}{% endblock %}
 {% block content %}
 
+<article>
 {% if video.external_url %} 
+<figure id="video">
 <iframe
     src="{{ video.get_embed_url }}" 
     width="100%" 
@@ -12,24 +14,29 @@
     frameborder="0" 
     allowfullscreen>
 </iframe>
+</figure>
 {% endif %}
+<header>
 <h2>{{video.title}}</h2>
 <div>
     <button class="btn btn-light rounded-pill me-4"><a href="{% url 'youtube:channel' video.channel.slug %}" class="text-dark text-decoration-none">{{ video.channel.name }}</a></button>
     <button type="button" id="likeButton" class="btn btn-light rounded-pill" 
     data-url="{% url 'youtube:evaluate' channel_slug=video.channel.slug video_slug=video.slug  %}">
-        Like <span id="likeCount">{{ video.likes }}</span>
+        Like <span id="likeCount">{{ video.like_count }}</span>
     </button>   
 </div>
-<div class="bg-light rounded-3 mt-3">
+</header>
+<section id="discription" class="bg-light rounded-3 mt-3">
 <p class="text-dark">
-    <strong>999,999,999,999 views 24 Apr 2005 </strong><br>
+    <strong>{{ video.view_count }} 回視聴 {{ video.uploaded_at|date:"Y/m/d" }} </strong><br>
     {{ video.discription }}
 </p>
-</div>
+</section>
+</article>
+<section id="comments">
 <div class="mt-2">
     <h3>Comments</h3>
-    <input type="text" id="commentInput" placeholder="write comment" autocomplete="off" class="form-control">
+    <input type="text" id="commentInput" name="commentText" placeholder="write comment" autocomplete="off" class="form-control">
     <div class="text-end mt-1">
         <button type="button" id="commentButton" class="btn btn-primary rounded-pill mt-1"
         data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">Comment</button>
@@ -42,6 +49,7 @@
         {% endfor %}
     </ul>
 </div>
+</section>
 
 {% endblock %}
 {% block scripts %}
