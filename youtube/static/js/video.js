@@ -31,11 +31,6 @@ likeButton.addEventListener("click", async function(){
             body: JSON.stringify({})
         });
     const data =await responce.json();
-    
-
-    console.log("data:", data);
-
-
     if (data.success) {
         likeCount.textContent = data.like_count;  
     }
@@ -70,11 +65,7 @@ commentButton.addEventListener("click", async function(){
             });
         console.log("posted");
 
-        text = responce.text();
-        console.log(text);
-
         const data =await responce.json();
-        console.log(data);
         if (data.success) {
             let newComment = document.createElement("li");
             newComment.classList.add("list-group-item");

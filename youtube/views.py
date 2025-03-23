@@ -64,4 +64,10 @@ class CommentView(View):
         return JsonResponse({"success": True, "newCommentText": new_comment.text}, status=201)
     
     
-    
+class SubscribeView(View):
+    def post(self, request, *args, **kwargs):
+        channel = get_object_or_404(Channel, slug=kwargs["channel_slug"])
+        channel.subscribers_number = F("subscribers_number") + 1
+        channel.save(update_fields=["subscribers_number"])
+        channel.refresh_from_db()
+        return JsonResponse({"success": True, "subscribers_number": channel.subscribers_number})

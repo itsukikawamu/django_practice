@@ -29,6 +29,7 @@ class Video(models.Model):
     slug = models.SlugField(unique=True, editable=False)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     external_url = models.URLField(blank=True, null=True)
+    thumbnail_url = models.URLField(blank=True, null=True)
     view_count = models.PositiveBigIntegerField(verbose_name="view_count", default=0)
     like_count = models.PositiveBigIntegerField(verbose_name="like_count", default=0)
     discription = models.CharField(max_length=1000, default="")
@@ -53,6 +54,12 @@ class Video(models.Model):
     def get_embed_url(self):
         if self.external_url:
             return self.external_url.replace("watch?v=", "embed/")
+        return None
+    
+    def get_thumbnail_url(self):
+        if self.external_url and 'youtube.com' in self.external_url:
+            video_id = self.external_url.split('watch?v=')[-1].split('&')[0]
+            return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
         return None
     
 class Comment(models.Model):
