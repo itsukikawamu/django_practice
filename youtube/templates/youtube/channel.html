@@ -1,13 +1,19 @@
 {% extends "youtube/base.html" %}
 {% block title %}{{channel.name}}{% endblock %}
 {% block content %}
-    <h1 class="text-center">{{channel.name}}</h1>
-    <div class="mt-5">
-    <ul cass="list-group">
-        {% for video in video_list %}
-            <li class="list-group-item"><a href="{% url 'youtube:video' channel.slug video.slug %}" class="text-dark text-decoration-none"><strong>{{ video.title }}</strong></a></li>
-        {% endfor %}
-    </ul>
-    </div>
-
+<h1 class="text-center">{{channel.name}}</h1>
+<div class="mt-5">
+<ul cass="list-group">
+{% for video in video_list %}
+    <li class="list-group-item">
+        <a href="{% url 'youtube:video' channel.slug video.slug %}" class="text-dark text-decoration-none">
+            <div class="d-flex align-items-center">
+                <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="me-3" style="width: 120px; height: 67.5px; object-fit: cover;">
+                <strong>{{ video.title }}</strong>
+            </div>
+        </a>
+    </li>
+{% endfor %}
+</ul>
+</div>
 {% endblock %}
