@@ -13,6 +13,7 @@ class HomeView(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context["channel_list"] = Channel.objects.order_by("-subscribers_number")[:5]
         context["video_list"] = Video.objects.order_by("-like_count")[:10]
+        
         return context
     
 class ChannelView(generic.ListView):
@@ -37,6 +38,7 @@ class VideoView(generic.TemplateView):
         context["channel"] = get_object_or_404(Channel, slug=kwargs["channel_slug"])
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
         context["comment_list"] = Comment.objects.filter(video=context["video"]).order_by("-uploaded_at")
+        context["video_list"] = Video.objects.order_by("-like_count")[:10]
         
         video = context["video"]
         video.view_count = F("view_count") + 1

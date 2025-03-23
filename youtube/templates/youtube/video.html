@@ -33,6 +33,27 @@
 </p>
 </section>
 </article>
+
+<section class="mt-3">
+    {% if video_list %}
+    <h3>関連動画</h3>
+    <ul class="list-group list-group">
+    {% for video in video_list %}
+    <li class="list-group-item">
+        <a href="{% url 'youtube:video' video.channel.slug video.slug %}" class="text-dark text-decoration-none">
+            <div class="d-flex align-items-center">
+                <img src="{{ video.get_thumbnail_url }}" alt="{{ video.title }}" class="me-3" style="width: 120px; height: 67.5px; object-fit: cover;">
+                <strong>{{ video.title }}</strong>
+            </div>
+        </a>
+    </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text-muted">No videos are available.</p>
+    {% endif %}
+</section>
+
 <section id="comments">
 <div class="mt-2">
     <h3>Comments</h3>
