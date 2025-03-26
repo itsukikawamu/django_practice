@@ -91,8 +91,5 @@ class ContactView(FormView):
     success_url = reverse_lazy("youtube:contact")
     
     def form_valid(self, form):
-        name = form.cleaned_data['name']
-        email = form.cleaned_data['email']
-        message = form.cleaned_data['message']
-        Contact.objects.create(name=name, email=email, message=message)
+        form.save()
         return super().form_valid(form)

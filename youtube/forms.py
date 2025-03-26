@@ -1,4 +1,5 @@
 from django import forms
+from .models import Contact
 
 class SearchForm(forms.Form):
     keywords = forms.CharField(
@@ -10,19 +11,17 @@ class SearchForm(forms.Form):
             })
         )
 
-class ContactForm(forms.Form):
-    name = forms.CharField(
-        label='お名前', 
-        max_length=50,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control'
-        }))
-    email = forms.EmailField(
-        label='メールアドレス',
-        widget=forms.EmailInput(attrs={
-            'class': 'form-control'
-        }))
-    message = forms.CharField(
-        label='メッセージ', widget=forms.Textarea(attrs={
-            'class': 'form-control'
-        }))
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'message']
+        labels = {
+            'name': 'お名前',
+            'email': 'メールアドレス',
+            'message': 'メッセージ',
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'message': forms.Textarea(attrs={'class': 'form-control'}),
+        }
