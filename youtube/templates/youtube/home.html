@@ -2,6 +2,10 @@
 {% block title %}YouTube{% endblock %}
 {% block content %}
     <section class="mt-3">
+        <form>
+            {{ form.keywords }}
+            <button type="submit">検索</button>
+        </form>
         {% if video_list %}
         <ul class="list-group list-group">
         {% for video in video_list %}

@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View, generic
 from django.db.models import F
 from .models import Channel, Video, Comment 
+from .forms import SearchForm
 import json
         
 
@@ -14,7 +15,13 @@ class HomeView(generic.TemplateView):
         context["channel_list"] = Channel.objects.order_by("-subscribers_number")[:5]
         context["video_list"] = Video.objects.order_by("-like_count")[:10]
         
+        form = SearchForm(self.request.GET or None)
+        context["form"] = form
+        if form.is_valid():
+            keyword = form.cleaned_data["keywords"]
+            context["video_list"] = Video.objects.filter(title__icontains=keyword)
         return context
+    
     
 class ChannelView(generic.ListView):
     template_name = "youtube/channel.html"
