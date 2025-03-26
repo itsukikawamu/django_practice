@@ -1,0 +1,20 @@
+{% extends "youtube/base.html" %}
+{% block title %}お問い合わせ{% endblock %}
+{% block content %}
+<article class="container">
+    <h2>お問い合わせ</h2>
+    <form>
+        <div>
+            {% csrf_token %}
+            {{ form }}
+            <div  class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-light">送信</button>
+            </div>
+        </div>
+        
+    </form>
+
+</article>
+
+
+{% endblock %}

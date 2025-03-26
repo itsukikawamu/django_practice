@@ -4,6 +4,7 @@
     <section class="mt-3">
         <form>
             <div class="input-group mb-3">
+                {% csrf_token %}
                 {{ form.keywords }}
                 <button type="submit" class="btn btn-light">検索</button>
             </div>

@@ -83,4 +83,12 @@ def subscribe(request, channel_slug):
     return JsonResponse({"success": True, "subscribers_number": channel.subscribers_number})
 
     
-#class ContactView(View):
+class ContactView(generic.TemplateView):
+    template_name="youtube/contact.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = ContactForm(self.request.GET or None)
+        context["form"] = form
+        return context
+    
