@@ -11,6 +11,18 @@ class SearchForm(forms.Form):
         )
 
 class ContactForm(forms.Form):
-    name = forms.CharField(label='お名前', max_length=50)
-    email = forms.EmailField(label='メールアドレス')
-    message = forms.CharField(label='メッセージ', widget=forms.Textarea)
+    name = forms.CharField(
+        label='お名前', 
+        max_length=50,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control'
+        }))
+    email = forms.EmailField(
+        label='メールアドレス',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control'
+        }))
+    message = forms.CharField(
+        label='メッセージ', widget=forms.Textarea(attrs={
+            'class': 'form-control'
+        }))
