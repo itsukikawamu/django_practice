@@ -3,7 +3,10 @@
 {% block content %}
 <article class="container" style="max-width: 600px;">
     <h2>お問い合わせ</h2>
-    <form>
+    {% if message_sent %}
+    <div class="alert alert-success">お問い合わせありがとうございました！</div>
+    {% endif %}
+    <form method="post">
         <div>
             {% csrf_token %}
             {{ form }}

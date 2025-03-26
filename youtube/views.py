@@ -1,9 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View, generic
+from django.views.generic.edit import FormView
 from django.views.decorators.http import require_POST
 from django.db.models import F
-from .models import Channel, Video, Comment 
+from django.urls import reverse_lazy
+from .models import Channel, Video, Comment, Contact
 from .forms import SearchForm, ContactForm
 import json
         
@@ -83,12 +85,14 @@ def subscribe(request, channel_slug):
     return JsonResponse({"success": True, "subscribers_number": channel.subscribers_number})
 
     
-class ContactView(generic.TemplateView):
+class ContactView(FormView):
     template_name="youtube/contact.html"
+    form_class = ContactForm
+    success_url = reverse_lazy("youtube:contact")
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        form = ContactForm(self.request.GET or None)
-        context["form"] = form
-        return context
-    
+    def form_valid(self, form):
+        name = form.cleaned_data['name']
+        email = form.cleaned_data['email']
+        message = form.cleaned_data['message']
+        Contact.objects.create(name=name, email=email, message=message)
+        return super().form_valid(form)
