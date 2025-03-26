@@ -9,7 +9,11 @@
             <a href="{% url 'youtube:video' video.channel.slug video.slug %}" class="text-dark text-decoration-none">
                 <div class="d-flex align-items-center">
                     <img src="{{ video.get_thumbnail_url }}" alt="{{ video.title }}" class="me-3" style="width: 120px; height: 67.5px; object-fit: cover;">
-                    <strong>{{ video.title }}</strong>
+                    <div class="">
+                        <p class=""><strong>{{ video.title }}</strong></p>
+                        <p class="text-muted">by {{ video.channel.name }}</p>
+                    </div>
+
                 </div>
             </a>
         </li>
@@ -18,19 +22,6 @@
         {% else %}
         <p class="text-muted">No videos are available.</p>
         {% endif %}
-    </section>
-
-    <section class="mt-4">
-    {% if channel_list %}
-        <h2 class="text-success">popular channels</h2>
-        <ul class="list-group">
-        {% for channel in channel_list %}
-        <li class="list-group-item"><a href="{% url 'youtube:channel' channel.slug %}">{{ channel.name }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p class="text-muted">No channels are available.</p>
-    {% endif %}
     </section>
 
 {% endblock %}
