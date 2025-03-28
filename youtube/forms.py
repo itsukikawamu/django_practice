@@ -1,5 +1,6 @@
 from django import forms
 from .models import Contact, Comment
+from django.utils.safestring import mark_safe
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -29,11 +30,18 @@ class ContactForm(forms.ModelForm):
         fields = ['name', 'email', 'message']
         labels = {
             'name': 'お名前',
-            'email': 'メールアドレス',
+            'email': mark_safe('メールアドレス <span class="text-secondary">(任意)</span>'),
             'message': 'メッセージ',
         }
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'message': forms.Textarea(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control'
+                }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'required': False,
+                }),
+            'message': forms.Textarea(attrs={
+                'class': 'form-control'
+                }),
         }
