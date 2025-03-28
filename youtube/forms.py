@@ -1,5 +1,17 @@
 from django import forms
-from .models import Contact
+from .models import Contact, Comment
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'text': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'コメントする',
+                'autocomplete': 'off',
+                }),
+        }
 
 class SearchForm(forms.Form):
     keywords = forms.CharField(

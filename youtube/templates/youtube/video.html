@@ -57,11 +57,16 @@
 <section id="comments">
 <div class="mt-2">
     <h3>Comments</h3>
-    <input type="text" id="commentInput" name="commentText" placeholder="write comment" autocomplete="off" class="form-control">
-    <div class="text-end mt-1">
-        <button type="button" id="commentButton" class="btn btn-primary rounded-pill mt-1"
-        data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">Comment</button>
-    </div>
+    <form id="commentForm">
+        {% csrf_token %}
+        {{ form.text }}
+        <div class="text-end mt-1">
+            <button type="submit" id="commentButton" 
+                class="btn btn-primary rounded-pill mt-1"
+                data-url="{% url 'youtube:comment' channel_slug=video.channel.slug video_slug=video.slug %}">
+                Comment</button>
+        </div>
+    </form>
 </div>
 <div class="container mt-1">
     <ul id="commentList" class="list-group">

@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from django.db.models import F
 from django.urls import reverse_lazy
 from .models import Channel, Video, Comment, Contact
-from .forms import SearchForm, ContactForm
+from .forms import SearchForm, ContactForm, CommentForm
 import json
         
 
@@ -49,6 +49,7 @@ class VideoView(generic.TemplateView):
         context["video"] = get_object_or_404(Video, slug=kwargs["video_slug"], channel=context["channel"])
         context["comment_list"] = Comment.objects.filter(video=context["video"]).order_by("-uploaded_at")
         context["video_list"] = Video.objects.order_by("-like_count")[:10]
+        context["form"] = CommentForm() 
         
         video = context["video"]
         video.view_count = F("view_count") + 1

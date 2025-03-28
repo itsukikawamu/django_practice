@@ -1,16 +1,14 @@
-
-
 function getCsrfToken(){
-    let CSRFToken = null;
+    let csrfToken = null;
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++){
         const cookie = cookies[i].trim();
         if (cookie.startsWith('csrftoken=')){
-            CSRFToken = cookie.substring('csrftoken='.length);
+            csrfToken = cookie.substring('csrftoken='.length);
             break;
         }
     }
-    return CSRFToken;
+    return csrfToken;
 }
 
 
@@ -20,31 +18,28 @@ const likeCount = document.getElementById("likeCount");
 likeButton.addEventListener("click", async function(){
     const url = likeButton.dataset.url;
     try{
-
-    const responce = await fetch(url,
-        {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": getCsrfToken(),
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({})
-        });
-    const data =await responce.json();
-    if (data.success) {
-        likeCount.textContent = data.like_count;  
-    }
+        const response = await fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCsrfToken(),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({})
+            });
+        const data =await response.json();
+        if (data.success) {
+            likeCount.textContent = data.like_count;  
+        }
     }
     catch (error){
         console.error("error", error);
     }
 });
 
-const commentButton = document.getElementById("commentButton");
-const commentInput = document.getElementById("commentInput");
-const commentList = document.getElementById("commentList");
+const commentForm=document.getElementById("commentForm")
 
-commentButton.addEventListener("click", async function(){
+commentForm.addEventListener("submit", async function(event){
     console.log("clicked");
     const url = commentButton.getAttribute("data-url");
 
