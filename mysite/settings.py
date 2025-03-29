@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'polls.apps.PollsConfig',
     'youtube.apps.YoutubeConfig',
+    'rythm_toy.apps.RythmToyConfig'
 ]
 
 MIDDLEWARE = [
